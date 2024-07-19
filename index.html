@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PostMessage Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: aquamarine;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <div>
+        <h1>PostMessage Demo</h1>
+        <textarea id="message" rows="4" cols="50" disabled ></textarea>
+        <h3>Message to send to parent</h3>
+        <textarea id="returnMessage" rows="4" cols="50">Send this message back home.</textarea>
+        <button id="btnSend">Send Message to iframe</button>
+      </div>
+      
+    <script>
+      let source;
+      function displayMessage(evt) {
+        source = evt.source;
+        var message;
+        message = 'I got ' + evt.data + ' from ' + evt.origin;
+
+        document.getElementById('message').value = message;
+      }
+
+      window.addEventListener('message', displayMessage, false);
+
+      var btnSend = document.getElementById('btnSend');
+      btnSend.addEventListener('click', function () {
+        var message = document.getElementById('returnMessage').value;
+        source.postMessage(message, '*');
+      });
+    </script>
+  </body>
+</html>
